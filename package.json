@@ -1,0 +1,20 @@
+{
+  "name": "matchinggameserver",
+  "version": "1.0.0",
+  "description": "backend for matching game in ws",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.1",
+    "@types/ws": "^8.18.1",
+    "typescript": "^5.9.2"
+  }
+}
