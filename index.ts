@@ -13,7 +13,7 @@ wss.on("connection", function connection(ws) {
 });
 
 function onAfterConnection(ws: any) {
-  messageManager.handleAfterConnection(ws);
+  messageManager.handleWelcome(ws);
 }
 
 function onMessage(ws: any, data: any) {

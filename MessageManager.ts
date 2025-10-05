@@ -45,6 +45,14 @@ class MessageManager {
         this.handleChangePlayer(ws);
         break;
       }
+      case MessageId.FINISH_GAME: {
+        this.handleFinishGame(parsedData.args, ws);
+        break;
+      }
+      case MessageId.RESTART: {
+        this.handleWelcome(ws);
+        break;
+      }
       default:
         break;
     }
@@ -174,7 +182,7 @@ class MessageManager {
     });
   }
 
-  handleAfterConnection(ws: any) {
+  handleWelcome(ws: any) {
     const waiting = getWaitingGames([...this.games.values()]);
 
     ws.send(
@@ -207,6 +215,31 @@ class MessageManager {
 
   iterateOverClients(callback: (client: MyWebSocket) => void) {
     (this.wss.clients as unknown as Set<MyWebSocket>).forEach(callback);
+  }
+
+  handleFinishGame(parsedData: [string], ws: any) {
+    const gameId = getGameId(ws as unknown as WebSocket);
+    const game = this.games.get(gameId as number);
+    if (!game) {
+      // Handle game not found
+      return;
+    }
+
+    const [winnerPlayerId] = parsedData;
+
+    this.iterateOverClients((client) => {
+      if (getGameId(client) === gameId) {
+        client.send(
+          JSON.stringify({
+            messageId: MessageId.FINISH_GAME,
+            gameState: GameState.FINISHED,
+            winnerPlayerId,
+          })
+        );
+      }
+    });
+
+    this.games.delete(gameId as number);
   }
 }
 

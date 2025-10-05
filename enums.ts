@@ -4,6 +4,7 @@ export enum MessageId {
   PLAYED = 2,
   CHANGE_PLAYER = 3,
   FINISH_GAME = 4,
+  RESTART = 5,
 }
 
 export enum StartOption {
